@@ -16,13 +16,13 @@ export default function Sidebar() {
   };
 
   return (
-    <div className="w-64 h-screen bg-blue-100 text-gray-800 p-5 sticky top-0">
+    <div className="w-64 h-screen bg-blue-600 text-white p-5 sticky top-0">
       <h2 className="text-2xl font-bold mb-5">Admin Dashboard</h2>
       <ul>
         <li>
           <Link
             href="/admin/dashboard"
-            className="block py-2 px-4 hover:bg-blue-200 rounded"
+            className="block py-2 px-4 hover:bg-blue-100 hover:bg-opacity-10 hover:text-white rounded"
           >
             Dashboard
           </Link>
@@ -30,7 +30,7 @@ export default function Sidebar() {
         <li>
           <Link
             href="/admin/categories"
-            className="block py-2 px-4 hover:bg-blue-200 rounded"
+            className="block py-2 px-4 hover:bg-blue-100 hover:bg-opacity-10 hover:text-white rounded"
           >
             Pengelolaan Kategori
           </Link>
@@ -38,7 +38,7 @@ export default function Sidebar() {
         <li>
           <Link
             href="/admin/objects"
-            className="block py-2 px-4 hover:bg-blue-200 rounded"
+            className="block py-2 px-4 hover:bg-blue-100 hover:bg-opacity-10 hover:text-white rounded"
           >
             Pengelolaan Objek
           </Link>
@@ -46,7 +46,7 @@ export default function Sidebar() {
       </ul>
       <button
         onClick={handleLogout}
-        className="mt-5 w-full py-2 px-4 bg-red-500 hover:bg-red-600 rounded text-white"
+        className="mt-5 w-full py-2 px-4 bg-white rounded text-blue-600"
       >
         Logout
       </button>
