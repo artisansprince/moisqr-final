@@ -179,7 +179,6 @@ const ObjectsPage = () => {
 
             return (
               <div key={object.id} className="border p-4 rounded-lg shadow-md">
-                <h3 className="text-lg font-semibold">{object.name}</h3>
                 {firstImageUrl && (
                   <img
                     src={`${baseURL}${firstImageUrl}`}
@@ -187,22 +186,23 @@ const ObjectsPage = () => {
                     className="w-full h-40 object-cover mt-2 rounded"
                   />
                 )}
+                <h3 className="text-lg font-semibold pt-4">{object.name}</h3>
                 <div className="mt-2">
                   <button
                     onClick={() => handleView(object.id)}
-                    className="bg-green-500 text-white px-4 py-2 rounded mr-2"
+                    className="bg-gray-200 text-green-500 px-4 py-2 rounded mr-2"
                   >
                     View
                   </button>
                   <button
                     onClick={() => handleEdit(object)}
-                    className="bg-yellow-500 text-white px-4 py-2 rounded mr-2"
+                    className="bg-gray-200 text-blue-500 px-4 py-2 rounded mr-2"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => handleDelete(object.id)}
-                    className="bg-red-500 text-white px-4 py-2 rounded"
+                    className="bg-gray-200 text-red-500 px-4 py-2 rounded"
                   >
                     Delete
                   </button>
