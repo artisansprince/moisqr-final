@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import axios from 'axios';
-import jsPDF from 'jspdf';
+
 
 export default function DetailObjectPageTest() {
   const [object, setObject] = useState(null);
@@ -75,53 +75,42 @@ export default function DetailObjectPageTest() {
     setModalOpen(false); // Tutup modal setelah memilih bahasa
   };
 
-  // Fungsi untuk ekspor ke PDF
+  
+  // Export to PDF with images
   const exportToPDF = () => {
-    const pdf = new jsPDF();
+    const element = document.getElementById('export-content');
   
-    // Render HTML yang sudah diisi dari API
-    pdf.html(document.querySelector(".desc-wrapper"), {
-      callback: function (pdf) {
-        let yPosition = pdf.internal.pageSize.height - 100; // Posisi awal untuk gambar
-        let columns = 3; // Jumlah kolom gambar
-        let imageWidth = 60;
-        let imageHeight = 60;
+    // Tunggu semua gambar selesai dimuat
+    const images = element.querySelectorAll('img');
+    const imagePromises = Array.from(images).map(
+      (img) =>
+        new Promise((resolve) => {
+          if (img.complete) {
+            resolve();
+          } else {
+            img.onload = resolve;
+            img.onerror = resolve; // Tetap resolve meskipun gagal load
+          }
+        })
+    );
   
-        // Render gambar-gambar dalam format grid
-        imageUrls.forEach((imageUrl, index) => {
-          const img = new Image();
-          img.src = `${baseURL}${imageUrl}`;
-          img.onload = () => {
-            // Cek apakah gambar berada di luar halaman
-            if (yPosition + imageHeight > pdf.internal.pageSize.height) {
-              pdf.addPage();
-              yPosition = 10; // Reset posisi y untuk gambar di halaman baru
-            }
+    Promise.all(imagePromises).then(() => {
+      const options = {
+        margin: 1,
+        filename: 'object-detail.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+      };
   
-            // Posisi gambar dalam grid
-            const xPosition = 10 + (index % columns) * (imageWidth + 10);
-            yPosition = 10 + Math.floor(index / columns) * (imageHeight + 10);
-  
-            pdf.addImage(img, 'PNG', xPosition, yPosition, imageWidth, imageHeight);
-  
-            // Jika gambar terakhir, simpan PDF setelah render selesai
-            if (index === imageUrls.length - 1) {
-              pdf.save(`${object.name || 'export'}.pdf`);
-            }
-          };
-        });
-      },
-      x: 10,
-      y: 10,
-      width: 180, // lebar konten HTML
+      if (window.html2pdf) {
+        html2pdf().set(options).from(element).save();
+      } else {
+        console.error('html2pdf library not loaded.');
+      }
     });
   };
-  
-  
-  
-  
-  
-  
+
   
 
 
@@ -159,16 +148,18 @@ export default function DetailObjectPageTest() {
           </div>
         </div>
       )}
-
+      
+      <div id='export-content'>
       {/* Gambar objek berjajar horizontal */}
       {imageUrls.length > 0 ? (
-        <div className="flex overflow-x-auto space-x-4 py-4 mb-4">
+        <div id="image-gallery" className="flex overflow-x-auto space-x-4 py-4 mb-4">
           {imageUrls.map((imageUrl, index) => (
             <img
               key={index}
               src={`${baseURL}${imageUrl}`}
               alt={`Image ${index + 1}`}
               className="w-64 h-48 object-cover rounded-md"
+              crossOrigin="anonymous"
             />
           ))}
         </div>
@@ -183,9 +174,11 @@ export default function DetailObjectPageTest() {
         <p className="text-gray-500 mb-4">{object.location}</p>
 
         <div
+          id='object-description'
           className="desc-wrapper"
           dangerouslySetInnerHTML={{ __html: object.description }}
         />
+      </div>
       </div>
 
       {/* Tombol untuk export PDF */}

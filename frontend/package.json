@@ -11,8 +11,11 @@
   "dependencies": {
     "autoprefixer": "^10.4.20",
     "axios": "^1.7.8",
+    "html2canvas": "^1.4.1",
+    "html2pdf.js": "^0.10.2",
     "jspdf": "^2.5.2",
     "next": "14.2.17",
+    "puppeteer": "^23.10.3",
     "react": "^18",
     "react-dom": "^18",
     "translate": "^3.0.1"
