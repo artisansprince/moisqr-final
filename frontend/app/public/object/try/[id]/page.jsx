@@ -7,7 +7,7 @@ import jsPDF from 'jspdf';
 
 
 
-export default function DetailObjectPageTest() {
+export default function DetailObjectPageTry() {
   const [object, setObject] = useState(null);
   const [language, setLanguage] = useState('en'); // Default bahasa Inggris
   const [isModalOpen, setModalOpen] = useState(false);
@@ -238,7 +238,7 @@ export default function DetailObjectPageTest() {
 
 
 
-// export default function DetailObjectPageTest() {
+// export default function DetailObjectPageTry() {
 //   const [object, setObject] = useState(null);
 //   const [language, setLanguage] = useState('en'); // Default bahasa Inggris
 //   const [isModalOpen, setModalOpen] = useState(false);
